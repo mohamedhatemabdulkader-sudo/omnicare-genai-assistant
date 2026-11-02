@@ -1,0 +1,13 @@
+.env
+smoke_server.py
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+qdrant_data/
+*.tmp
+
+node_modules/
+.next/
+*.tsbuildinfo
+frontend/AGENTS.md
