@@ -8,6 +8,8 @@ services:
       CORS_ORIGINS: '["http://localhost:3000","http://127.0.0.1:3000"]'
     ports:
       - "8000:8000"
+    entrypoint: ["python", "/app/docker_entrypoint.py"]
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
     volumes:
       - claims-data:/app/claims
 

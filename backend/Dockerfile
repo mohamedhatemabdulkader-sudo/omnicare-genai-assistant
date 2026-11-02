@@ -16,10 +16,9 @@ RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-smal
 
 COPY app ./app
 COPY data ./data
-COPY entrypoint.sh /entrypoint.sh
+COPY docker_entrypoint.py /app/docker_entrypoint.py
 RUN mkdir -p /app/claims /app/qdrant_data \
     && cp data/mock_claims.json /app/claims/ \
-    && chmod +x /entrypoint.sh \
     && chmod 1777 /app/claims /app/qdrant_data \
     && useradd --create-home --uid 10001 appuser \
     && chown -R appuser /app
@@ -30,5 +29,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=5s --start-period=60s --retries=5 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health', timeout=3)"
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["python", "/app/docker_entrypoint.py"]
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
